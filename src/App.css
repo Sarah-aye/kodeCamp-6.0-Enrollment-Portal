@@ -1,1 +1,11 @@
-
+body,
+html,
+#app,
+#root {
+  overflow-x: hidden;
+  padding: 10px;
+}
+.disabled-btn {
+  opacity: 0.5;
+  pointer-events: none;
+}

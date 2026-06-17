@@ -3,6 +3,9 @@ import "./App.css";
 import Header from "./components/Header";
 import axios from "axios";
 import StatusMessage from "./components/StatusMessage";
+import EnrollForm from "./components/EnrollForm";
+import StudentList from "./components/StudentList";
+import ClassButton from "./components/ClassButton";
 function App() {
   const TRACKS = ["Frontend", "Backend", "Mobile", "Data"];
 
@@ -33,39 +36,41 @@ function App() {
   const red = scoreTotal.reduce((acc, s) => acc + s, 0);
 
   const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const fetchAPI = async () => {
+    try {
+      setLoading(true);
+      const respond = await axios.get(
+        "https://randomuser.me/api/?results=6&nat=us,gb",
+      );
+
+      setLoading(false);
+      const data = respond.data.results;
+
+      const filteredData = data.map((student) => ({
+        id: student.login.uuid,
+        firstName: student.name.first,
+        lastName: student.name.last,
+        email: student.email,
+        avatar: student.picture.thumbnail,
+        score: Math.floor(Math.random() * 61) + 40,
+        track: TRACKS[Math.floor(Math.random() * TRACKS.length)],
+      }));
+
+      console.log(filteredData);
+
+      setStudents([...filteredData, ...SEED_STUDENTS]);
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchAPI = async () => {
-      try {
-        setLoading(true);
-        const respond = await axios.get(
-          "https://randomuser.me/api/?results=6&nat=us,gb",
-        );
-
-        const data = respond.data.results;
-
-        const filteredData = data.map((student) => ({
-          id: student.login.uuid,
-          firstName: student.name.first,
-          lastName: student.name.last,
-          email: student.email,
-          avatar: student.picture.thumbnail,
-          score: Math.floor(Math.random() * 61) + 40,
-          track: TRACKS[Math.floor(Math.random() * TRACKS.length)],
-        }));
-
-        console.log(filteredData);
-
-        setStudents([...filteredData, ...SEED_STUDENTS]);
-      } catch (error) {
-        console.error(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchAPI();
   }, []);
 
@@ -77,11 +82,25 @@ function App() {
         ).toFixed(1)
       : 0;
 
+  const onEnroll = (newStudent) => {
+    setStudents((prev) => [...prev, newStudent]);
+  };
+
   return (
     <div>
-      {loading && <StatusMessage type="loading" />}
-      {error !== null && <StatusMessage type="error" />}
       <Header students={students} averageScore={averageScore} />
+      <EnrollForm
+        tracks={TRACKS}
+        onEnroll={onEnroll}
+        title="Enroll New Student"
+      />
+      {loading && <StatusMessage type="loading" />}
+      {error && <StatusMessage type="error" />}
+
+      <StudentList students={students} title="Student Roster">
+        <footer>{`End of Roster - ${students.length} total`}</footer>
+      </StudentList>
+      <ClassButton title="Refresh" onclick={fetchAPI} />
     </div>
   );
 }

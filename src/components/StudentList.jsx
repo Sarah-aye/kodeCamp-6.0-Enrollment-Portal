@@ -3,7 +3,8 @@ import StudentCard from "./StudentCard";
 
 const StudentList = ({ students, title = "All Students", children }) => {
   return (
-    <div>
+    <div className="">
+      <h3>{title}</h3>
       {students.length > 0
         ? students.map((student) => (
             <StudentCard key={student.id} student={student} />

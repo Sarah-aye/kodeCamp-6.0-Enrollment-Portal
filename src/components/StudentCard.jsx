@@ -1,11 +1,11 @@
 import React from "react";
 
 const StudentCard = ({ student }) => {
-  const { firstName, lastName, avatar, tract, email, score, isActive } =
+  const { firstName, lastName, avatar, track, email, score, isActive } =
     student;
 
-  const getGrade = () => {
-    score >= 90 && score <= 100
+  const getGrade = (score) => {
+    return score >= 90 && score <= 100
       ? "A"
       : score >= 80
         ? "B"
@@ -24,10 +24,10 @@ const StudentCard = ({ student }) => {
         <h3>{`${firstName} ${lastName}`}</h3>
       </div>
       <div>
-        <h3>{`${tract} - ${email}`}</h3>
+        <h3>{`${track} - ${email}`}</h3>
       </div>
       <div>
-        <h3>{`Score: ${score}(Grade: ${getGrade}) ${isActive ? "Active" : "InActive"}`}</h3>
+        <h3>{`Score: ${score} (Grade: ${getGrade(score)}) ${isActive ? "Active" : "InActive"}`}</h3>
       </div>
     </div>
   );

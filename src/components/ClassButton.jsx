@@ -4,10 +4,10 @@ import React, { Component } from "react";
 
 class ClassButton extends Component {
   render() {
-    const { title, onclick, className = "" } = this.props;
+    const { title, onclick, className = "", disabled = false } = this.props;
 
     return (
-      <button onClick={onclick} className={className}>
+      <button onClick={onclick} className={className} disabled={disabled}>
         {title}
       </button>
     );
