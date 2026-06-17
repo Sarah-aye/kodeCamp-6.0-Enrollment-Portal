@@ -3,13 +3,17 @@ import StudentCard from "./StudentCard";
 
 const StudentList = ({ students, title = "All Students", children }) => {
   return (
-    <div className="">
+    <div className="form container">
       <h3>{title}</h3>
-      {students.length > 0
-        ? students.map((student) => (
+      {students.length > 0 ? (
+        <div className="student-list">
+          {students.map((student) => (
             <StudentCard key={student.id} student={student} />
-          ))
-        : "No Students to display yet"}
+          ))}
+        </div>
+      ) : (
+        "No Students to display yet"
+      )}
       {children}
     </div>
   );

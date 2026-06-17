@@ -7,7 +7,7 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
     firstName: "",
     lastName: "",
     track: "",
-    score: 0,
+    score: "",
   });
   const email = useRef();
   const isActive = useRef();
@@ -39,6 +39,7 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
     const payLoad = {
       ...formData,
       id: crypto.randomUUID(),
+      avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`,
       score: Number(formData.score),
       email: email.current.value,
       isActive: isActive.current.checked,
@@ -56,7 +57,7 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
         firstName: "",
         lastName: "",
         track: "",
-        score: 0,
+        score: "",
       });
 
       email.current.value = "";
@@ -75,61 +76,70 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
 
   return (
     <div>
-      <form>
+      <form className="card">
         <h3>{title}</h3>
-        <input
-          type="text"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
-          placeholder="Enter First Name"
-        />
+        <br />
+        <div className="form-div1">
+          <input
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            placeholder="First Name"
+          />
 
-        <input
-          type="text"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-          placeholder="Enter Last Name"
-        />
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            placeholder="Last Name"
+          />
 
-        <select name="track" value={formData.track} onChange={handleChange}>
-          <option value="">Select a track</option>
-          {tracks.map((track) => (
-            <option key={track} value={track}>
-              {track}
-            </option>
-          ))}
-        </select>
+          <select name="track" value={formData.track} onChange={handleChange}>
+            <option value="">Select a track</option>
+            {tracks.map((track) => (
+              <option key={track} value={track}>
+                {track}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            name="score"
+            value={formData.score}
+            onChange={handleChange}
+            placeholder="Score"
+          />
+        </div>
 
-        <input
-          type="number"
-          name="score"
-          value={formData.score}
-          onChange={handleChange}
-          placeholder="Enter your score"
-        />
+        <br />
 
-        <input
-          type="email"
-          ref={email}
-          placeholder="Enter your email"
-          defaultValue="student@gmail.com"
-        />
+        <div className="form-div2">
+          <label htmlFor="email">
+            {`Email: `}
+            <input
+              type="email"
+              ref={email}
+              placeholder="Enter your email"
+              defaultValue="student@gmail.com"
+              className="input"
+            />
+          </label>
 
-        <label>
-          <input type="checkbox" ref={isActive} />
-          Active
-        </label>
-
+          <label>
+            <input type="checkbox" ref={isActive} className="input" />
+            Active
+          </label>
+        </div>
+        {/* <br /> */}
+        <p>{`Preview: ${formData.firstName} ${formData.lastName} ${formData.track} ${formData.score}`}</p>
         <Button
           title="Enroll"
           onClick={handleSubmit}
           className={Object.keys(error).length > 0 ? "disabled-btn" : ""}
         />
       </form>
-
-      <p>{`Preview: ${formData.firstName} ${formData.lastName} ${formData.track} ${formData.score}`}</p>
     </div>
   );
 };

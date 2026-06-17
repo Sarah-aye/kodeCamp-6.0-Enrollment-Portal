@@ -18,16 +18,16 @@ const StudentCard = ({ student }) => {
               : "Invalid Score";
   };
   return (
-    <div>
+    <div className="card">
       <div>
-        <img src={avatar} alt="student profile" />
-        <h3>{`${firstName} ${lastName}`}</h3>
+        <img src={avatar} alt="student profile" className="avatar" />
+        <p>{`${firstName} ${lastName}`}</p>
       </div>
       <div>
-        <h3>{`${track} - ${email}`}</h3>
+        <p>{`${track} - ${email}`}</p>
       </div>
       <div>
-        <h3>{`Score: ${score} (Grade: ${getGrade(score)}) ${isActive ? "Active" : "InActive"}`}</h3>
+        <p>{`Score: ${score} (Grade: ${getGrade(score)}) - ${isActive ? "Active" : "InActive"}`}</p>
       </div>
     </div>
   );

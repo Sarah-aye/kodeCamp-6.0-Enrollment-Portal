@@ -89,18 +89,25 @@ function App() {
   return (
     <div>
       <Header students={students} averageScore={averageScore} />
+      <br />
       <EnrollForm
         tracks={TRACKS}
         onEnroll={onEnroll}
         title="Enroll New Student"
       />
+      <br />
       {loading && <StatusMessage type="loading" />}
       {error && <StatusMessage type="error" />}
 
       <StudentList students={students} title="Student Roster">
-        <footer>{`End of Roster - ${students.length} total`}</footer>
+        <div>
+          <br />
+          <footer>{`End of Roster - ${students.length} total`}</footer>
+          <br />
+          <ClassButton title="Refresh" onclick={fetchAPI} />
+        </div>
       </StudentList>
-      <ClassButton title="Refresh" onclick={fetchAPI} />
+      <br />
     </div>
   );
 }
