@@ -76,7 +76,7 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
 
   return (
     <div>
-      <form className="card">
+      <form className="container card">
         <h3>{title}</h3>
         <br />
         <div className="form-div1">
