@@ -132,8 +132,14 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
             Active
           </label>
         </div>
-        {/* <br /> */}
-        <p>{`Preview: ${formData.firstName} ${formData.lastName} ${formData.track} ${formData.score}`}</p>
+
+        {(formData.firstName ||
+          formData.lastName ||
+          formData.track ||
+          formData.score) && (
+          <p>{`Preview: ${formData.firstName} ${formData.lastName} ${formData.track} ${formData.score}`}</p>
+        )}
+
         <Button
           title="Enroll"
           onClick={handleSubmit}
