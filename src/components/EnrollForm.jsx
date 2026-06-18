@@ -137,7 +137,7 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
           formData.lastName ||
           formData.track ||
           formData.score) && (
-          <p>{`Preview: ${formData.firstName} ${formData.lastName} ${formData.track} ${formData.score}`}</p>
+          <p>{`Preview: ${formData.firstName} ${formData.lastName} - ${formData.track} -  ${formData.score}`}</p>
         )}
 
         <Button
