@@ -15,8 +15,14 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
   const [error, setError] = useState({});
 
   const validationSchema = yup.object({
-    firstName: yup.string().required("first name is required"),
-    lastName: yup.string().required("last name is required"),
+    firstName: yup
+      .string()
+      .required("first name is required")
+      .min(3, "minimum 3 letter name"),
+    lastName: yup
+      .string()
+      .required("last name is required")
+      .min(3, "minimum 3 letter name"),
     track: yup.string().required("Track must be selected"),
     score: yup
       .number()
@@ -26,10 +32,45 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
     email: yup.string().email("Invalid email").required("email is required"),
   });
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    try {
+      await validationSchema.validateAt(name, {
+        ...formData,
+        [name]: value,
+      });
+
+      setError((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    } catch (err) {
+      setError((prev) => ({
+        ...prev,
+        [name]: err.message,
+      }));
+    }
+  };
+
+  const validateUncontrolled = async () => {
+    try {
+      await validationSchema.validateAt("email", {
+        email: email.current.value,
+      });
+
+      setError((prev) => ({
+        ...prev,
+        email: "",
+      }));
+    } catch (err) {
+      setError((prev) => ({
+        ...prev,
+        email: err.message,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -80,58 +121,80 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
         <h3>{title}</h3>
         <br />
         <div className="form-div1">
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="First Name"
-          />
+          <div>
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="First Name"
+            />
+            {error.firstName && (
+              <p className="error-message">{error.firstName}</p>
+            )}
+          </div>
 
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Last Name"
-          />
+          <div>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Last Name"
+            />
+            {error.lastName && (
+              <p className="error-message">{error.lastName}</p>
+            )}
+          </div>
 
-          <select name="track" value={formData.track} onChange={handleChange}>
-            <option value="">Select a track</option>
-            {tracks.map((track) => (
-              <option key={track} value={track}>
-                {track}
-              </option>
-            ))}
-          </select>
-          <input
-            type="number"
-            name="score"
-            value={formData.score}
-            onChange={handleChange}
-            placeholder="Score"
-          />
+          <div>
+            <select name="track" value={formData.track} onChange={handleChange}>
+              <option value="">Select a track</option>
+              {tracks.map((track) => (
+                <option key={track} value={track}>
+                  {track}
+                </option>
+              ))}
+            </select>
+            {error.track && <p className="error-message">{error.track}</p>}
+          </div>
+
+          <div>
+            <input
+              type="number"
+              name="score"
+              value={formData.score}
+              onChange={handleChange}
+              placeholder="Score"
+            />
+            {error.score && <p className="error-message">{error.score}</p>}
+          </div>
         </div>
 
         <br />
 
         <div className="form-div2">
-          <label htmlFor="email">
-            {`Email: `}
-            <input
-              type="email"
-              ref={email}
-              placeholder="Enter your email"
-              defaultValue="student@gmail.com"
-              className="input"
-            />
-          </label>
+          <div>
+            <label htmlFor="email">
+              {`Email: `}
+              <input
+                type="email"
+                ref={email}
+                placeholder="Enter your email"
+                defaultValue="student@gmail.com"
+                className="input"
+                onBlur={validateUncontrolled}
+              />
+            </label>
+            {error.email && <p className="error-message">{error.email}</p>}
+          </div>
 
           <label>
             <input type="checkbox" ref={isActive} className="input" />
             Active
           </label>
         </div>
+        <br />
 
         {(formData.firstName ||
           formData.lastName ||
@@ -143,7 +206,7 @@ const EnrollForm = ({ tracks, onEnroll, title = "" }) => {
         <Button
           title="Enroll"
           onClick={handleSubmit}
-          className={Object.keys(error).length > 0 ? "disabled-btn" : ""}
+          className={Object.values(error).some(Boolean) ? "disabled-btn" : ""}
         />
       </form>
     </div>
