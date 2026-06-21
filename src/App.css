@@ -82,6 +82,7 @@ select:focus {
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--shadow);
+  cursor: pointer;
 }
 
 button {
@@ -151,4 +152,20 @@ button:disabled {
   font-size: 0.85rem;
   margin-top: 4px;
   margin-bottom: 8px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+}
+
+.link {
+  text-decoration: none;
 }

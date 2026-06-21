@@ -1,11 +1,24 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import axios from "axios";
 import StatusMessage from "./components/StatusMessage";
 import EnrollForm from "./components/EnrollForm";
 import StudentList from "./components/StudentList";
 import ClassButton from "./components/ClassButton";
+
+import { Route, Routes } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import EnrollPage from "./pages/EnrollPage";
+import StudentDetailPage from "./pages/StudentDetailPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import MainLayout from "./pages/MainLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LoginPage from "./pages/LoginPage";
+
+// important for navigating back to the previous location on the last page.
+
 function App() {
   const TRACKS = ["Frontend", "Backend", "Mobile", "Data"];
 
@@ -38,6 +51,10 @@ function App() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // to be used in the enroll function.
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const fetchAPI = async () => {
     try {
@@ -84,30 +101,60 @@ function App() {
 
   const onEnroll = (newStudent) => {
     setStudents((prev) => [...prev, newStudent]);
+
+    // navigate to home only if enroll is from the EnrollPage to prevent reload when enrolling from the home page.
+
+    if (location.pathname === "/enroll") {
+      navigate("/");
+    }
   };
 
   return (
     <div>
-      <Header students={students} averageScore={averageScore} />
-      <br />
-      <EnrollForm
-        tracks={TRACKS}
-        onEnroll={onEnroll}
-        title="Enroll New Student"
-      />
-      <br />
-      {loading && <StatusMessage type="loading" />}
-      {error && <StatusMessage type="error" />}
+      <Routes>
+        <Route
+          element={
+            <MainLayout students={students} averageScore={averageScore} />
+          }
+        >
+          <Route
+            path="/"
+            element={
+              <HomePage
+                tracks={TRACKS}
+                onEnroll={onEnroll}
+                onclick={fetchAPI}
+                students={students}
+                averageScore={averageScore}
+                title
+                type
+              />
+            }
+          >
+            Home
+          </Route>
 
-      <StudentList students={students} title="Student Roster">
-        <div>
-          <br />
-          <footer>{`End of Roster - ${students.length} total`}</footer>
-          <br />
-          <ClassButton title="Refresh" onclick={fetchAPI} />
-        </div>
-      </StudentList>
-      <br />
+          <Route
+            path="/students/:id"
+            element={<StudentDetailPage students={students} />}
+          >
+            Student Details
+          </Route>
+
+          <Route path="*" element={<NotFoundPage />}></Route>
+          <Route
+            path="/enroll"
+            element={
+              <ProtectedRoute>
+                <EnrollPage tracks={TRACKS} onEnroll={onEnroll} title />
+              </ProtectedRoute>
+            }
+          >
+            Enroll
+          </Route>
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

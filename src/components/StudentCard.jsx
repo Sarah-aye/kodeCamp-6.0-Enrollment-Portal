@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const StudentCard = ({ student }) => {
+  const navigate = useNavigate();
   const { firstName, lastName, avatar, track, email, score, isActive } =
     student;
 
@@ -18,7 +20,7 @@ const StudentCard = ({ student }) => {
               : "Invalid Score";
   };
   return (
-    <div className="card">
+    <div className="card" onClick={() => navigate(`/students/${student.id}`)}>
       <div>
         <img src={avatar} alt="student profile" className="avatar" />
         <p>{`${firstName} ${lastName}`}</p>
