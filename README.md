@@ -28,6 +28,33 @@ no-auth API
 
 ===========================================================================================
 
+# 📘 Stage 4 Task Implementations
+
+## ➕ Component Additions
+
+- 🧾 RosterFooter — used as a child component inside StudentList
+- 🔐 ProtectedRoute — wrapper component used to protect the EnrollPage with fake - authentication (using localStorage)
+
+## 📄 Pages Setup
+
+- 🏠 HomePage — combines the student list and enroll form
+- 📝 EnrollPage — protected route using a fake login flow implemented with localStorage
+- 🔑 LoginPage — fake authentication login page
+- 🧩 MainLayoutPage — layout wrapper for routes using <Outlet /> from react-router-dom
+- ❌ NotFoundPage — handles invalid URLs (404 page)
+- 👤 StudentDetailPage — dynamic route page for individual students using useParams()
+
+### These pages were structured to support efficient browser navigation using React Router.
+
+- 🧭 React Router Features Implemented
+- 🔄 Browser navigation using useNavigate()
+- 📍 Dynamic routing with useParams()
+- 🔗 Route awareness with useLocation()
+- 🔍 Query filtering using useSearchParams()
+- 🚪 Protected routing using Navigate() for redirects
+
+===========================================================================================
+
 ## 🏗️ Component-Based Architecture
 
 Component-based architecture is a software design approach where the user interface is built from small, reusable pieces called components. Each component is responsible for a specific part of the UI and can be reused throughout the application.
