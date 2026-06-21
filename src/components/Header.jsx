@@ -5,7 +5,7 @@ const Header = (props) => {
   return (
     <div className="container flex">
       <div>
-        <header>
+        <header className="header">
           <h1>KodeCamp 6.0 - Enrollment Portal</h1>
           <div>
             {`${props.students.length} Students enrolled | Class Average: ${props.averageScore}%`}{" "}

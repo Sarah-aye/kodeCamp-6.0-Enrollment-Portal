@@ -46,7 +46,7 @@ h4 {
 
 p {
   color: var(--muted-text);
-  font-size: 14px;
+  font-size: 18px;
 }
 
 input,
@@ -55,7 +55,7 @@ select {
   padding: 10px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  font-size: 14px;
+  font-size: 18px;
   outline: none;
   transition: 0.2s ease;
 }
@@ -92,6 +92,7 @@ button {
   border: none;
   border-radius: var(--radius);
   font-weight: 600;
+  font-size: 16px;
   cursor: pointer;
   transition: 0.2s ease;
 }
@@ -107,6 +108,10 @@ button:disabled {
 .disabled-btn {
   opacity: 0.5;
   pointer-events: none;
+}
+
+.header {
+  font-size: 18px;
 }
 
 .student-list {
@@ -164,8 +169,10 @@ button:disabled {
 .nav-link {
   text-decoration: none;
   color: white;
+  font-size: 16px;
 }
 
 .link {
   text-decoration: none;
+  font-size: 16px;
 }
