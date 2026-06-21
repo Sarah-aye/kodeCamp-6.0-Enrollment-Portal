@@ -16,7 +16,7 @@ const LoginPage = () => {
   return (
     <div className="container">
       <h2>Login</h2>
-
+      <br />
       <button onClick={handleLogin}>Login</button>
     </div>
   );

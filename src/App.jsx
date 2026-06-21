@@ -149,9 +149,8 @@ function App() {
                 <EnrollPage tracks={TRACKS} onEnroll={onEnroll} title />
               </ProtectedRoute>
             }
-          >
-            Enroll
-          </Route>
+          />
+
           <Route path="/login" element={<LoginPage />} />
         </Route>
       </Routes>
