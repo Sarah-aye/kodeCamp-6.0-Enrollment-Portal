@@ -87,6 +87,8 @@ function App() {
     }
   };
 
+  // the fetch api must run once on mount unless if the refresh button is clicked.
+
   useEffect(() => {
     fetchAPI();
   }, []);
